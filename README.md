@@ -1,5 +1,7 @@
 # autoresearch
 
+![autoresearch](auto.png)
+
 Autonomous iterative optimization with Git in the loop.
 
 > The value in AI agents is not in the model call -- it's in the feedback loop. A model that edits, measures, and keeps only what works will outperform a model that generates once and hopes for the best. Every time.
