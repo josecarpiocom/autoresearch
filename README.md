@@ -126,6 +126,16 @@ The agent doesn't write jokes -- it writes the **prompt** that writes jokes. `ev
 
 This is the pattern that LLMs have always struggled with: **meta-optimization.** The model isn't generating content. It's generating the instructions that generate content. And improving those instructions based on measured results.
 
+### Running from any problem directory
+
+```bash
+python ../../run.py --baseline         # Measure baseline only
+python ../../run.py --once             # Single iteration
+python ../../run.py -n 5              # Run N iterations
+python ../../run.py                    # Run until max_iterations or stuck
+python ../../analyze.py                # Post-run analysis
+```
+
 ---
 
 ## Problem Definition
