@@ -10,19 +10,19 @@ But ask them what happens when the output is wrong. How they measure quality. Ho
 
 **Because there was no loop. And without a loop, there is no compounding.**
 
-autoresearch is a framework that turns any measurable task into an autonomous optimization loop. An agent edits code. A verify command measures the result. The framework keeps only changes that improve the target metric. Git is the memory.
+autoresearch is a Python framework that turns any measurable task into an autonomous optimization loop. An agent edits code. A verify command measures the result. The framework keeps only changes that improve the target metric. Git is the memory.
 
-Inspired by [karpathy/autoresearch](https://github.com/karpathy/autoresearch), but generalized: any agent, any metric, any domain.
+Karpathy's [autoresearch](https://github.com/karpathy/autoresearch) introduced this idea for ML training -- agents iterating on research code against a loss function. Powerful concept. But limited to one domain and one agent.
+
+The core insight is more general than ML. The pattern **edit, measure, keep or discard** works anywhere you have a metric. Trading strategies. Prompt engineering. Algorithm design. Configuration tuning. Content optimization. Any problem where you can write a command that prints a number.
+
+This is a Python rewrite from scratch. Not a fork. The original runs as a shell script with hardcoded assumptions about ML workflows. This version is a deterministic Python framework with explicit contracts: TOML config, scope enforcement, multi-agent support, structured results, and Git as the checkpoint system. The flow is predictable and inspectable at every step.
 
 ---
 
 ## Why This Matters
 
 The industry treats AI agents as single-turn tools. Prompt in, code out, done. The interesting problems don't work that way.
-
-- A trading strategy needs hundreds of iterations against out-of-sample data.
-- A prompt needs refinement against a judge that scores what the generator produces.
-- An algorithm needs benchmarking after every change.
 
 The pattern is always the same: **edit, measure, decide, repeat.** autoresearch makes that pattern automatic.
 
@@ -32,7 +32,32 @@ What makes it different:
 - **The metric is the only judge.** No subjective evaluation. The verify command prints a number. The number decides.
 - **Any agent, any model.** Claude, Codex, Gemini, Cursor, or a custom command. The framework doesn't care who edits -- only whether the edit improved the metric.
 - **Scope enforcement.** The agent can only touch files you allow. Everything else gets reverted automatically.
+- **Deterministic Python.** No shell scripts, no hidden state. TOML config, explicit contracts, structured results. You can read the loop top to bottom and know exactly what happens.
 - **Zero dependencies.** Python 3.11+ and Git. That's it. Example-specific deps are separate.
+
+---
+
+## Beyond ML Training
+
+Karpathy's original targets ML research: an agent edits training code, measures loss, iterates. That's one application. The framework doesn't care what the metric represents. If you can measure it, you can optimize it.
+
+**Trading strategies.** The agent edits a strategy file. The verifier runs it against out-of-sample market data with transaction costs and reports the Sharpe ratio. The agent never sees where the train/test split is. 40 iterations of autonomous strategy refinement, each one committed to Git if it improves the metric.
+
+**Prompt engineering.** The agent doesn't generate content -- it generates the *instructions* that generate content. A separate model produces output from those instructions. A judge scores the output. The agent reads the scores and critique, then refines the instructions. This is meta-optimization: the model improving its own prompts through measured feedback. The transferable artifact is the prompt, not a single piece of content.
+
+**Algorithm optimization.** An agent edits a sorting algorithm. The verifier benchmarks it against a fixed dataset and reports execution time. The baseline is bubble sort. After 20 iterations, you have a Git history of incremental algorithmic improvements, each one provably faster than the last.
+
+**Configuration tuning.** Edit a config file. Verify runs the system and reports latency, throughput, error rate, or whatever matters. The agent explores the parameter space one change at a time, keeping only what improves the target metric.
+
+**Infrastructure as code.** Edit Terraform, Kubernetes manifests, or CI pipelines. Verify deploys to a staging environment and runs a health check. The metric could be deployment time, resource cost, or test pass rate.
+
+**Content optimization.** Edit a blog post, landing page copy, or email template. Verify sends it to a panel of judge models that score readability, persuasion, or engagement. The agent iterates based on structured feedback.
+
+**Compiler flags and build optimization.** Edit compiler flags or build configuration. Verify compiles and benchmarks. The metric is binary size, compilation time, or runtime performance.
+
+**SQL query optimization.** Edit a query. Verify runs `EXPLAIN ANALYZE` and extracts execution time. The agent rewrites joins, adds indexes, restructures CTEs -- keeping only changes that make the query faster.
+
+The pattern is always the same. What changes is the metric and the domain. The framework is indifferent.
 
 ---
 
@@ -153,13 +178,17 @@ Override priority: `--agent-command` > env `AUTORESEARCH_AGENT_COMMAND` > config
 
 ## Two Example Patterns
 
+The included examples demonstrate two fundamentally different optimization patterns. Every new problem you create will be a variation of one of these.
+
 ### Direct optimization (trading)
 
 ```text
 Agent edits code --> Verifier measures metric --> Keep or discard
 ```
 
-The agent modifies `train.py` directly. The verifier runs the strategy against hidden test data. Simple, fast, one model.
+One model, one file, one metric. The agent modifies `train.py` directly. The frozen verifier runs the strategy against hidden test data with transaction costs. The agent never sees where the split is -- it optimizes blind against the out-of-sample Sharpe.
+
+This is the pattern for: algorithm optimization, config tuning, SQL queries, compiler flags, build systems. Anything where the agent edits the artifact directly and a deterministic benchmark scores the result.
 
 ### Meta-optimization (jokes-prompting)
 
@@ -167,7 +196,9 @@ The agent modifies `train.py` directly. The verifier runs the strategy against h
 Agent edits prompt --> Generator produces content --> Judge scores content --> Keep or discard
 ```
 
-The agent optimizes **instructions**, not content. The content is generated fresh every iteration from those instructions. The judge provides structured critique that feeds back into the next prompt iteration.
+Three models in the loop: the agent (optimizer), the generator (executor), and the judge (evaluator). The agent optimizes **instructions**, not content. The content is generated fresh every iteration. The judge provides structured critique that feeds back into the next prompt iteration.
+
+This is the pattern for: prompt engineering, content optimization, email copy, landing pages, documentation. Anything where the artifact is a set of instructions and the quality is measured through the output those instructions produce.
 
 This is the more interesting pattern. It produces a transferable artifact (the prompt), not a single piece of content. And it compounds: each iteration's critique makes the next prompt sharper.
 
