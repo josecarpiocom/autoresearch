@@ -86,6 +86,19 @@ git clone https://github.com/josecarpiocom/autoresearch.git
 cd autoresearch
 ```
 
+You need at least one agent CLI installed:
+
+```bash
+# Claude Code (default)
+npm install -g @anthropic-ai/claude-code
+
+# or OpenAI Codex
+npm install -g @openai/codex
+
+# or Google Gemini CLI
+npm install -g @google/gemini-cli
+```
+
 ### Trading -- maximize out-of-sample Sharpe
 
 ```bash
