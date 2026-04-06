@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+data/
+autoresearch-results.tsv
+.autoresearch_hypothesis
+generator_output.txt
+judge_feedback.txt
+/tmp/

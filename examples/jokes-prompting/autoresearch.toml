@@ -1,0 +1,66 @@
+# Prompt engineering para chistes — patrón meta-optimización
+# El agente optimiza un PROMPT que genera chistes.
+# evaluate.py envía el prompt a un LLM generador, obtiene 10 chistes,
+# un juez puntúa cada uno de 1 a 10 con crítica, y reporta el mejor score.
+
+[problem]
+goal      = "Escribe el prompt que genere los chistes más graciosos posibles sobre el tema descrito en program.md"
+metric    = "score"
+direction = "higher"
+
+[setup]
+command = ""
+
+[verify]
+command = "{python} evaluate.py"
+pattern = '{metric}=(-?[\d.]+)'
+timeout = 180
+
+[scope]
+edit   = ["prompt.txt"]
+read   = ["rubric.md", "generator_output.txt", "judge_feedback.txt"]
+frozen = ["evaluate.py", "rubric.md"]
+
+[agent]
+preset = "claude"
+
+[context]
+notes = """
+Optimizas un PROMPT (prompt.txt) que se enviará a un LLM para generar chistes.
+NO escribes chistes directamente — escribes las instrucciones que los producen.
+
+El evaluador:
+1. Lee prompt.txt y lo envía a un LLM generador.
+2. El generador produce 10 chistes separados por `---`.
+3. Un único juez puntúa cada chiste de 1 a 10 con crítica detallada.
+4. Se reporta el score del mejor chiste (escala 1-10).
+
+Lee rubric.md para entender CÓMO se puntúan los chistes.
+Lee program.md para el tema, restricciones y estilo deseado.
+Lee generator_output.txt para ver los 10 chistes que generó tu prompt anterior.
+Lee judge_feedback.txt para ver la puntuación y crítica de TODOS los chistes.
+
+Tu trabajo es iterar sobre el prompt:
+- Analiza qué chistes produjo tu prompt anterior (generator_output.txt).
+- Lee la crítica del juez (judge_feedback.txt) para entender qué funciona y qué no.
+- Ajusta las instrucciones en prompt.txt para guiar mejor al generador.
+
+Técnicas útiles para el prompt:
+- Few-shot: incluir ejemplos del estilo deseado.
+- Restricciones explícitas: "el remate debe caer en la última línea".
+- Anti-patrones: "NO hagas X" para errores recurrentes.
+- Estructura: pedir formato específico (setup → misdirection → remate).
+- Tono: describir el estilo con referencias ("humor de barra de bar", "monólogo de Broncano").
+
+REGLAS:
+- prompt.txt es lo ÚNICO que editas. Nada más.
+- El prompt debe pedir exactamente 10 chistes separados por `---`.
+- El prompt debe estar en español.
+- Tu hipótesis en .autoresearch_hypothesis debe explicar qué cambio hiciste al prompt y por qué.
+"""
+program = "program.md"
+
+[loop]
+max_iterations    = 30
+stop_after_discards = 15
+branch_per_session = true

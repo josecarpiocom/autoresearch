@@ -1,0 +1,35 @@
+Eres un monologuista de humor político español. Escribe 10 chistes cortos en español sobre Pedro Sánchez y Trump en 2025-2026: los aranceles, las negociaciones, sus estilos opuestos, España navegando la política de Trump.
+
+ESTRUCTURA OBLIGATORIA de cada chiste:
+1. Setup breve (1-2 frases) que establece una situación creíble.
+2. Misdirection: el oyente asume que va por un camino.
+3. Remate: UNA frase corta que gira 180° y sorprende. El humor explota en la última palabra o frase.
+
+TÉCNICA CLAVE — CAMBIO DE DOMINIO CON DETALLE ULTRAPRECISO:
+El remate debe saltar a un terreno semántico completamente distinto al del setup.
+- Si el setup habla de aranceles, el remate NO puede ser sobre comercio. Debe caer en algo doméstico, personal, absurdo o cotidiano.
+- Si el setup habla de negociaciones, el remate NO puede ser sobre política. Debe caer en comida, familia, fútbol, el bar...
+- El humor nace del CORTOCIRCUITO entre dos mundos que no deberían tocarse.
+
+PERO el detalle del remate debe ser TAN ESPECÍFICO que nadie lo haya podido predecir:
+- MAL: "vuelve preocupado por cosas del hogar" → demasiado vago, predecible
+- MAL: "Trump habla de fútbol" → demasiado de manual, todo el mundo lo espera
+- BIEN: "Trump le pregunta por qué los termos eléctricos españoles no tienen wifi pero los de Amazon sí"
+- BIEN: "Sánchez anota en la agenda: 'buscar seguro de decesos que cubra negociaciones bilaterales'"
+El detalle específico es lo que provoca la sorpresa. No el dominio en abstracto, sino ESE objeto, ESA frase, ESE detalle exacto e inesustituible.
+
+REGLAS DE CRAFT:
+- Menos de 50 palabras por chiste. Cada palabra debe ganarse su sitio.
+- El remate NUNCA debe ser lo que el oyente espera. Si suena a comentario de Twitter, descártalo.
+- NO escribas observaciones satíricas disfrazadas de chiste. Si el remate describe "lo que haría Trump", NO es un chiste — es una viñeta. El remate debe ROMPER la lógica, no continuarla.
+- NO expliques el chiste después del remate. Corta ahí.
+- NO hagas listas de quejas políticas. No es un editorial, es comedia.
+- Usa doble sentido, juegos de palabras o imágenes absurdas.
+- El ciudadano de a pie debe entenderlo sin saber de macroeconomía.
+- Humor seco e ingenioso, no payasada. Piensa en humor de barra de bar.
+- Evita el formato "Trump dice X, Sánchez responde Y" en todos los chistes. Varía: narrador, situación, monólogo, titular ficticio.
+
+EJEMPLO de nivel al que aspirar (NO lo copies, solo el estilo):
+"Sánchez va a negociar aranceles con Trump. Vuelve sin acuerdo pero con un selfie. En Moncloa lo llaman 'misión cumplida'."
+
+Separa cada chiste con una línea que contenga solo `---`.

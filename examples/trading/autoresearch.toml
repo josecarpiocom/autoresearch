@@ -1,0 +1,40 @@
+# Example: optimize a BTC trading strategy's Sharpe ratio
+#
+# The agent modifies train.py to maximize out-of-sample Sharpe.
+# Data is split train/test inside prepare.py to prevent overfitting.
+
+[problem]
+goal      = "Maximize out-of-sample Sharpe ratio for a BTC 5min trading strategy"
+metric    = "sharpe"
+direction = "higher"
+
+[setup]
+command = "{python} download_data.py"
+
+[verify]
+command = "{python} prepare.py"
+pattern = '{metric}=(-?[\d.]+)'
+timeout = 120
+
+[scope]
+edit   = ["train.py"]
+read   = ["program.md"]
+frozen = ["data/", "download_data.py"]
+
+[agent]
+command = "cat {prompt_file} | codex exec --full-auto -"
+
+[context]
+notes = """
+train.py: evaluate(df) -> Series of positions {-1, 0, 1}.
+prepare.py is frozen — you cannot read or modify it. It evaluates your strategy
+on a hidden train/test split and reports the out-of-sample Sharpe.
+Positions are shifted +1 bar (no look-ahead). 5 bps transaction cost per trade.
+Only use pandas and numpy — no external libraries.
+"""
+program = "program.md"
+
+[loop]
+max_iterations    = 40
+stop_after_discards = 10
+branch_per_session = true

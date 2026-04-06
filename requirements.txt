@@ -1,0 +1,7 @@
+# Core framework: no dependencies (Python 3.11+ and Git only)
+# Example-specific dependencies below:
+
+# examples/trading
+pandas
+numpy
+requests
